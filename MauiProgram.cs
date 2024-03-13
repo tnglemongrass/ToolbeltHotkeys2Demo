@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Toolbelt.Blazor.Extensions.DependencyInjection; // 👈 1. Add this line
 
 namespace ToolbeltHotkeys2Demo
 {
@@ -16,9 +17,11 @@ namespace ToolbeltHotkeys2Demo
 
             builder.Services.AddMauiBlazorWebView();
 
+            builder.Services.AddHotKeys2(); // 👈 2. Add this line
+
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
-    		builder.Logging.AddDebug();
+            builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

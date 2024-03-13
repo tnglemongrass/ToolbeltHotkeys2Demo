@@ -1,5 +1,32 @@
 ﻿@page "/"
+@implements IDisposable
+@using Toolbelt.Blazor.HotKeys2
+@inject HotKeys HotKeys
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<p>Press Ctrl+Shift+A to toggle this: @state</p>
+
+@code {
+    private bool state;
+
+    private HotKeysContext? HotKeysContext;
+
+    protected override void OnInitialized()
+    {
+        this.HotKeysContext = this.HotKeys.CreateContext()
+          .Add(ModCode.Ctrl | ModCode.Shift, Code.A, FooBar, new() { Description = "do foo bar." });
+    }
+
+    private void FooBar() // 👈 This will be invoked when Ctrl+Shift+A typed.
+    {
+        state = !state;
+    }
+
+    public void Dispose() // 👈 Add "Dispose" method.
+    {
+        this.HotKeysContext?.Dispose(); // 👈 1. Add this
+    }
+}
